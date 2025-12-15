@@ -1,0 +1,99 @@
+\section{Container Images i Kubernetes}
+
+\subsection{Hvad er et container image}
+\begin{itemize}
+  \item Et \textbf{container image} er en letvægts, portabel pakke, der indeholder alt en applikation skal bruge for at køre.
+  \item Indeholder applikationskode, dependencies (afhængigheder), miljøvariabler, konfiguration og nødvendige OS-biblioteker.
+  \item Er \textbf{ikke} et fuldt operativsystem, men kun det minimale, der er nødvendigt for at køre applikationen.
+  \item Sikrer at applikationen altid kører i det samme, forventede miljø.
+\end{itemize}
+
+\subsection{Container images som grundsten i Kubernetes}
+\begin{itemize}
+  \item Alle containers i Kubernetes startes ud fra et container image.
+  \item Gælder for alle typer workloads:
+  \begin{itemize}
+    \item Webapplikationer
+    \item Backend-services
+    \item Sidecars
+    \item Systemværktøjer (fx metrics exporters)
+  \end{itemize}
+  \item Image-kvaliteten påvirker hele applikationens livscyklus:
+  \begin{itemize}
+    \item Opstartstid
+    \item Hukommelsesforbrug
+    \item Sikkerhed
+    \item Stabilitet
+  \end{itemize}
+\end{itemize}
+
+\subsection{Deklarativt setup med images}
+\begin{itemize}
+  \item Kubernetes er \textbf{deklarativt}.
+  \item Du beskriver \textbf{hvad} der skal køre, ikke \textbf{hvordan}.
+  \item I et YAML-manifest definerer du:
+  \begin{itemize}
+    \item Hvilket image der skal bruges
+    \item Hvilken version (tag)
+    \item Hvor mange replicas der skal køre
+  \end{itemize}
+  \item Kubernetes sørger selv for at:
+  \begin{itemize}
+    \item Hente imaget fra et registry
+    \item Starte containers som specificeret
+  \end{itemize}
+\end{itemize}
+
+\subsection{Image versionering og tags}
+\begin{itemize}
+  \item Image-tags bruges til at versionere applikationer.
+  \item Brug af \texttt{latest} anbefales ikke:
+  \begin{itemize}
+    \item Giver uforudsigelige deployments
+    \item Gør fejlsøgning og rollback sværere
+  \end{itemize}
+  \item En ny deployment kræver ofte kun:
+  \begin{itemize}
+    \item Ændring af image-tag i YAML-filen
+  \end{itemize}
+  \item Korrekt versionering er afgørende for \textbf{reproducerbare builds}.
+\end{itemize}
+
+\subsection{Immutable Infrastructure}
+\begin{itemize}
+  \item Kubernetes arbejder med \textbf{immutable infrastructure}.
+  \item Ved fejl i produktion:
+  \begin{itemize}
+    \item Ruller man tilbage til et tidligere image
+    \item Ikke til tidligere kode direkte
+  \end{itemize}
+  \item Rollback gendanner både:
+  \begin{itemize}
+    \item Applikationen
+    \item Dens miljø
+  \end{itemize}
+  \item Dette øger stabilitet og robusthed i systemet.
+\end{itemize}
+
+\subsection{OCI-standarden}
+\begin{itemize}
+  \item Kubernetes bruger ikke sit eget image-format.
+  \item Følger \textbf{OCI-standarden (Open Container Initiative)}.
+  \item Images kan bygges med:
+  \begin{itemize}
+    \item Docker
+    \item Podman
+    \item Buildah
+  \end{itemize}
+  \item Images gemmes i et \textbf{container registry}, fx:
+  \begin{itemize}
+    \item Docker Hub
+    \item GitHub Container Registry
+    \item Private registries
+  \end{itemize}
+  \item Kubernetes kræver kun:
+  \begin{itemize}
+    \item Adgang til registry
+    \item Korrekt image-path og tag
+  \end{itemize}
+\end{itemize}
