@@ -1,0 +1,106 @@
+\section{Introduktion til Dockerfile}
+\subsection{Hvad er en Docker file}
+\begin{itemize}
+  \item En \textbf{Dockerfile} er en tekstfil, der beskriver, hvordan et container image bygges
+  \item Dockerfile fungerer som en opskrift for Docker
+  \item Kvaliteten af Dockerfile påvirker performance, skalerbarhed og sikkerhed
+  \item Dårligt skrevne Dockerfiles kan føre til:
+  \begin{itemize}
+    \item Lange build-tider
+    \item Store og ineffektive images
+    \item Sikkerhedssårbarheder
+  \end{itemize}
+\end{itemize}
+
+\subsection{Grundlæggende opbygning af en Dockerfile}
+\begin{itemize}
+  \item \textbf{FROM}: Angiver base image (fx alpine, node, python)
+  \item \textbf{RUN}: Udfører kommandoer under build (installerer software, konfiguration)
+  \item \textbf{COPY / ADD}: Kopierer filer fra host til container
+  \item \textbf{CMD}: Standardkommando der køres, når containeren starter
+  \item \textbf{ENTRYPOINT}: Definerer containerens primære kommando
+\end{itemize}
+
+\subsection{Best practices for effektive Dockerfiles}
+\subsubsection{Minimal base image}
+\begin{itemize}
+  \item Brug så små base images som muligt
+  \item Undgå fulde OS-images, hvis det ikke er nødvendigt
+  \item Foretræk fx \texttt{alpine} eller \texttt{slim}-varianter
+  \item Mindre images giver:
+  \begin{itemize}
+    \item Hurtigere pulls
+    \item Mindre lagerforbrug
+    \item Mindre angrebsflade
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Multi-stage builds}
+\begin{itemize}
+  \item Brug ét image til at bygge applikationen og et andet til at køre den
+  \item Build-værktøjer inkluderes kun i build-staget
+  \item Runtime-imaget indeholder kun det nødvendige output
+  \item Resultat: mindre og renere images
+\end{itemize}
+
+\subsection{Sikkerhed i Dockerfiles}
+\subsubsection{Undgå root-brugeren}
+\begin{itemize}
+  \item Containere kører som root som standard
+  \item Dette er en sikkerhedsrisiko
+  \item Opret en non-root bruger i containeren
+  \item Kør applikationen som denne bruger
+  \item Reducerer risikoen for privilege escalation
+\end{itemize}
+
+\subsubsection{Minimer installerede pakker}
+\begin{itemize}
+  \item Hver installeret pakke øger angrebsfladen
+  \item Installer kun absolut nødvendige afhængigheder
+  \item Hold base image og pakker så simple som muligt
+\end{itemize}
+
+\subsubsection{Opdatering og scanning}
+\begin{itemize}
+  \item Sårbarheder i afhængigheder er almindelige
+  \item Opdater base images og pakker regelmæssigt
+  \item Brug sikkerhedsscannere:
+  \begin{itemize}
+    \item Docker Scan
+    \item Trivy
+  \end{itemize}
+\end{itemize}
+
+\subsection{Performance-optimering af Dockerfiles}
+\subsubsection{Minimer antal lag}
+\begin{itemize}
+  \item Hver \texttt{RUN}, \texttt{COPY} og \texttt{ADD} skaber et nyt lag
+  \item Mange lag giver større images og langsommere builds
+  \item Kombinér kommandoer, hvor det er muligt
+\end{itemize}
+
+\subsubsection{Udnyt Docker caching}
+\begin{itemize}
+  \item Docker cacher hvert lag i Dockerfile
+  \item Lag, der ikke ændres, genbruges ved rebuild
+  \item Placer sjældent ændrede instruktioner øverst:
+  \begin{itemize}
+    \item Installation af afhængigheder
+    \item Base image
+  \end{itemize}
+  \item Ofte ændrede filer (fx applikationskode) placeres senere
+\end{itemize}
+
+\subsection{Eksempel på et clean og sikkert Dockerfile}
+\begin{itemize}
+  \item Bruger et minimalt Alpine base image
+  \item Anvender multi-stage build
+  \item Kører applikationen som non-root bruger
+  \item Kopierer kun nødvendige filer til runtime-imaget
+  \item Resultat:
+  \begin{itemize}
+    \item Lille image-størrelse
+    \item Hurtig startup
+    \item Forbedret sikkerhed
+  \end{itemize}
+\end{itemize}
