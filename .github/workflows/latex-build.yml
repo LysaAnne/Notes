@@ -13,10 +13,11 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v6
 
-            - name: Install TeX Live
+            - name: Build LaTeX PDF
               uses: xu-cheng/latex-action@v4
               with:
                   root_file: main.tex
+                  working_directory: Kubernetes/CKAD
 
             - name: Upload PDF artifact
               uses: actions/upload-artifact@v6
