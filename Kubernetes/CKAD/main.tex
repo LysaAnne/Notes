@@ -1,17 +1,28 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 
 \begin{document}
 \tableofcontents
-\pagebreak
-% \section{Creating and managing container images}
 
-{\Large \textbf{ \underline {Creating and managing container images}}}
+\pagebreak
+{\Large \textbf{ \underline {Container images}}}
 \input{sections/01-container-images.tex}
 \input{sections/02-dockerfiles.tex}
 \input{sections/03-docker-image-build-tag.tex}
 \input{sections/04-hosting-images.tex}
 \input{sections/05-update-images.tex}
+\input{sections/06-practical-demo.tex}
 
-% {\Large \textbf{ \underline {Creating and managing container images}}}
+\pagebreak
+{\Large \textbf{ \underline {Kubernetes workload}}}
+\input{sections/07-workload-types.tex}
+\input{sections/08-deployments-replicasets-statefulsets.tex}
+\input{sections/09-deamonsets.tex}
+\input{sections/10-chronjobs.tex}
+\input{sections/11-jobs.tex}
+
+\pagebreak
+{\Large \textbf{ \underline {Multicontainer pods}}}
+\input{sections/12-why-multicontainer.tex}
+\input{sections/13-multicontainer-types.tex}
 
 \end{document}

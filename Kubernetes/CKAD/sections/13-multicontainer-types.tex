@@ -1,0 +1,110 @@
+\section{Typer af multi-container design patterns}
+
+\subsection{Sidecar}
+\begin{itemize}
+    \item En \textbf{sidecar} er en hjælpercontainer, der kører i samme pod som hovedapplikationen.
+    \item Udvider eller forbedrer funktionalitet uden at ændre applikationens kode.
+    \item Deler netværk og storage med hovedcontaineren.
+    \item Muliggør tæt integration og enkel kommunikation via localhost og fælles volumes.
+\end{itemize}
+
+\subsubsection{Typiske anvendelser af sidecars}
+\begin{itemize}
+    \item \textbf{Logging}
+    \begin{itemize}
+        \item Fluent Bit eller Filebeat streamer logs til et centralt log-system.
+        \item Hovedapplikationen skal ikke håndtere log-shipping.
+    \end{itemize}
+    \item \textbf{Metrics og monitoring}
+    \begin{itemize}
+        \item Prometheus exporters indsamler metrics fra applikationen.
+        \item Holder hovedcontaineren let og fokuseret.
+    \end{itemize}
+    \item \textbf{Sikkerhed og service mesh}
+    \begin{itemize}
+        \item TLS-proxy eller Envoy sidecar.
+        \item Bruges af service meshes som Istio og Linkerd.
+    \end{itemize}
+    \item \textbf{Konfiguration og secrets}
+    \begin{itemize}
+        \item Synkronisering af config fra Git eller hentning af secrets fra Vault.
+        \item Opdateringer uden redeployment.
+    \end{itemize}
+    \item \textbf{Dataforberedelse og caching}
+    \begin{itemize}
+        \item Forbehandling af data eller vedligeholdelse af lokale caches.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Fordele ved sidecar pattern}
+\begin{itemize}
+    \item Holder applikationscontaineren ren og enkel.
+    \item Genbrug af fælles funktionalitet på tværs af pods.
+    \item Muliggør modulær observability og sikkerhed.
+    \item Understøtter tydelig separation of concerns.
+\end{itemize}
+
+\subsection{Init containers}
+\begin{itemize}
+    \item En \textbf{init container} kører før hovedcontainerne starter.
+    \item Bruges til setup- og forberedelsesopgaver.
+    \item Kører sekventielt og kun én gang.
+    \item Hovedcontainere starter først, når alle init containers er gennemført succesfuldt.
+    \item Stopper og afsluttes efter udført opgave.
+\end{itemize}
+
+\subsubsection{Typiske anvendelser af init containers}
+\begin{itemize}
+    \item Tjek af afhængigheder, fx om en database er tilgængelig.
+    \item Hentning af konfigurationsfiler, secrets eller modeller.
+    \item Validering af certifikater eller tokens.
+    \item Venten på systembetingelser, fx DNS-opslag eller volumes.
+\end{itemize}
+
+\subsubsection{Hvorfor bruge init containers}
+\begin{itemize}
+    \item Øger stabilitet og forudsigelighed ved opstart.
+    \item Holder opstartslogik ude af applikationskoden.
+    \item Sikrer at applikationen først starter, når miljøet er klar.
+    \item Understøtter klar opdeling mellem drift og udvikling.
+\end{itemize}
+
+\subsection{Adapter pattern}
+\begin{itemize}
+    \item Bruges når output fra en applikation skal transformeres.
+    \item Adapter-containeren konverterer data til et andet format.
+    \item Kommunikation sker typisk via shared volume eller separat port.
+    \item Eksempel:
+    \begin{itemize}
+        \item Applikation skriver logs i custom format.
+        \item Adapter omskriver logs til JSON.
+        \item Logging-system kan nu læse data.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Ambassador pattern}
+\begin{itemize}
+    \item Bruges til at proxy netværkstrafik fra applikationen.
+    \item Applikationen kommunikerer via localhost.
+    \item Ambassador-containeren videresender trafikken til eksterne services.
+    \item Kan tilføje:
+    \begin{itemize}
+        \item TLS
+        \item Retries
+        \item Rate limiting
+        \item Autentifikation
+    \end{itemize}
+    \item Eksempel:
+    \begin{itemize}
+        \item App sender databasekald til localhost.
+        \item Ambassador videresender til ekstern database med TLS.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Hvornår bruges adapter og ambassador patterns}
+\begin{itemize}
+    \item Når hovedapplikationen ikke kan eller bør ændres.
+    \item Når der er behov for bro mellem formater eller protokoller.
+    \item Når eksisterende applikationer skal udvides med ekstra funktionalitet.
+    \item Understøtter modularitet og separation of concerns.
+\end{itemize}

@@ -1,0 +1,74 @@
+\section{Hvorfor multi-container pods?}
+
+\subsection{Pod-begrebet}
+\begin{itemize}
+    \item En \textbf{pod} er den mindste deploybare enhed i Kubernetes.
+    \item En pod kan indeholde én eller flere containere.
+    \item Den mest udbredte model er én container pr. pod, men den er ikke altid optimal.
+\end{itemize}
+
+\subsection{Single-container pods}
+\begin{itemize}
+    \item Indeholder én container med ét klart ansvar.
+    \item Typisk brugt til én applikation eller microservice.
+    \item Let at skalere, vedligeholde og fejlfinde.
+    \item Hver pod fungerer uafhængigt af andre pods.
+\end{itemize}
+
+\subsection{Multi-container pods}
+\begin{itemize}
+    \item Indeholder flere containere, der arbejder tæt sammen.
+    \item Containere i samme pod deler:
+    \begin{itemize}
+        \item Netværks-namespace
+        \item IP-adresse og porte
+        \item Volumes (lager)
+    \end{itemize}
+    \item Containere er co-scheduled og kører på samme node.
+\end{itemize}
+
+\subsection{Hvorfor bruge flere containere i samme pod}
+\begin{itemize}
+    \item Muliggør opdeling af ansvar i specialiserede containere.
+    \item Gør intern kommunikation enkel via localhost.
+    \item Velegnet når containere er funktionelt afhængige af hinanden.
+\end{itemize}
+
+\subsection{Typiske use cases}
+
+\subsubsection{Sidecar}
+\begin{itemize}
+    \item Hjælpercontainer, der kører sammen med hovedapplikationen.
+    \item Bruges ofte til logopsamling, metrics eller proxying.
+    \item Eksempel: Fluent Bit til central log-streaming.
+\end{itemize}
+
+\subsubsection{Adapter}
+\begin{itemize}
+    \item Transformer data mellem forskellige formater.
+    \item Bruges når hovedapplikationen kræver et specifikt dataformat.
+\end{itemize}
+
+\subsubsection{Ambassador}
+\begin{itemize}
+    \item Fungerer som proxy til eksterne services.
+    \item Forenkler sikker og stabil kommunikation for hovedapplikationen.
+\end{itemize}
+
+\subsubsection{Init container}
+\begin{itemize}
+    \item Kører før hovedcontaineren starter.
+    \item Bruges til klargøring af konfiguration eller tjek af afhængigheder.
+\end{itemize}
+
+\subsection{Arkitektoniske overvejelser}
+\begin{itemize}
+    \item Containere i samme pod:
+    \begin{itemize}
+        \item Skalerer sammen
+        \item Fejler sammen
+        \item Genstarter sammen
+    \end{itemize}
+    \item Multi-container pods er tæt koblede.
+    \item Hvis containere kan fungere selvstændigt, bør de placeres i separate pods og forbindes via services.
+\end{itemize}

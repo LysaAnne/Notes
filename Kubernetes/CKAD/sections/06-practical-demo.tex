@@ -1,0 +1,26 @@
+\section{Kommandoer i demoen}
+
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Kommando} & \textbf{Hvad gør kommandoen} \\
+\hline
+\texttt{docker build -t my-simple-node:1.0 .} & Bygger et Docker image ud fra Dockerfile i den nuværende mappe og tildeler navn og version (tag). \\
+\hline
+\texttt{docker images} & Viser alle Docker images, der findes lokalt på systemet. \\
+\hline
+\texttt{kubectl apply -f myapp-pod.yaml} & Opretter eller opdaterer en Kubernetes Pod baseret på YAML-manifestet. \\
+\hline
+\texttt{kubectl apply -f myapp-service.yaml} & Opretter eller opdaterer en Kubernetes Service, som eksponerer Pod’en. \\
+\hline
+\texttt{kubectl get pods} & Viser status for alle Pods i det aktuelle namespace. \\
+\hline
+\texttt{kubectl get svc} & Viser alle Services og deres porte samt Cluster-IP/NodePort. \\
+\hline
+\texttt{docker login} & Logger ind på et container registry (fx Docker Hub) for at kunne pushe images. \\
+\hline
+\texttt{docker tag my-simple-node:1.0} \newline
+\texttt{username/myapp:1.0} & Omdøber et lokalt image til registry-format, så det kan pushes til Docker Hub. \\
+\hline
+\texttt{docker push username/myapp:1.0} & Uploader Docker imaget til Docker Hub repository’et. \\
+\hline
+\end{tabular}

@@ -1,0 +1,74 @@
+\section{Workload types i Kubernetes}
+
+\begin{itemize}
+    \item Kubernetes workload types definerer, hvordan applikationer kører og styres i et cluster
+    \item Hver workload type har et specifikt formål afhængigt af applikationens behov
+    \item Korrekt valg af workload type er vigtigt for stabilitet, skalering og vedligeholdelse
+    \item \textbf{De mest almindelige workload types inkluderer:}
+    \begin{itemize}
+        \item Deployments
+        \item ReplicaSets
+        \item StatefulSets
+        \item DaemonSets
+        \item Jobs
+        \item CronJobs
+    \end{itemize}
+\end{itemize}
+
+\subsection{Deployments}
+
+\begin{itemize}
+    \item Den mest anvendte workload type i Kubernetes
+    \item Bruges til \textbf{stateless applications} (applikationer uden vedvarende tilstand)
+    \item Alle pods er identiske og kan frit erstattes
+    \item Understøtter automatisk skalering op og ned
+    \item Håndterer rolling updates og rollbacks
+    \item Sikrer, at et bestemt antal pods altid kører
+    \item Velegnet til webservere, API’er og backend-services
+\end{itemize}
+
+\subsection{ReplicaSets}
+
+\begin{itemize}
+    \item Sikrer, at et fast antal identiske pods altid kører
+    \item Bruges oftest indirekte via Deployments
+    \item Mangler avancerede funktioner som rolling updates
+    \item Anvendes sjældent direkte i moderne Kubernetes-miljøer
+\end{itemize}
+
+\subsection{StatefulSets}
+
+\begin{itemize}
+    \item Bruges til \textbf{stateful applications} (applikationer med vedvarende data)
+    \item Hver pod har en stabil og unik identitet
+    \item Persistent storage bevares ved genstart
+    \item Pods oprettes og skaleres i fast rækkefølge
+    \item Velegnet til databaser og andre tilstandsbaserede services
+\end{itemize}
+
+\subsection{DaemonSets}
+
+\begin{itemize}
+    \item Sikrer, at én pod kører på hver node eller udvalgte noder
+    \item Nye noder får automatisk pod’en
+    \item Bruges til node-nære baggrundsservices
+    \item Typiske eksempler er logging- og monitoring-agenter
+\end{itemize}
+
+\subsection{Jobs}
+
+\begin{itemize}
+    \item Bruges til batch-opgaver, der skal køre færdige
+    \item Pods afsluttes, når opgaven er fuldført
+    \item Kan genstarte pods ved fejl
+    \item Velegnet til data-migrationer og engangsopgaver
+\end{itemize}
+
+\subsection{CronJobs}
+
+\begin{itemize}
+    \item Bruges til tidsplanlagte opgaver
+    \item Minder om cron jobs i Linux
+    \item Opretter Jobs på faste tidspunkter
+    \item Bruges typisk til backups og periodisk vedligeholdelse
+\end{itemize}

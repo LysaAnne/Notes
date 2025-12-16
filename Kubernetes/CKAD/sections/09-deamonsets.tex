@@ -1,0 +1,53 @@
+\section{DaemonSets}
+
+\subsection{Hvad er et DaemonSet}
+
+\begin{itemize}
+    \item En workload type designet til at køre \textbf{baggrundsservices} i et Kubernetes-cluster
+    \item Sikrer, at præcis én pod kører på hver node eller på et udvalgt sæt af noder
+    \item Nye noder i clusteret får automatisk pod’en ved oprettelse
+    \item Bruges typisk til node-nære services, ikke applikationer
+\end{itemize}
+
+\subsection{Formål og egenskaber}
+
+\begin{itemize}
+    \item Garanterer, at alle relevante noder kører den samme baggrundsservice
+    \item Pods skaleres automatisk i takt med antallet af noder
+    \item Ingen manuel skalering af antal pods
+    \item Velegnet til services, der skal være tilgængelige på alle noder
+\end{itemize}
+
+\subsection{Typiske anvendelser}
+
+\begin{itemize}
+    \item Logging: indsamling af logs fra hver node (fx Fluentd eller Logstash)
+    \item Monitoring: indsamling af metrics fra noder (fx Prometheus Node Exporter eller Datadog agent)
+    \item Netværk: netværkskomponenter der skal køre på alle noder (fx Calico eller Cilium)
+    \item Sikkerhed: sikkerhedsagenter, scanners eller intrusion detection systems
+\end{itemize}
+
+\subsection{Hvornår skal man bruge DaemonSets}
+
+\begin{itemize}
+    \item Når en service skal køre på hver node i clusteret
+    \item Når servicen skal være tilgængelig uanset hvor mange noder der er
+    \item Når der er tale om baggrundsprocesser som logging, monitoring eller sikkerhed
+\end{itemize}
+
+\subsection{Hvornår DaemonSets ikke er velegnede}
+
+\begin{itemize}
+    \item Når servicen kun skal køre på få noder uden brug af labels
+    \item Når applikationen skal kunne skaleres horisontalt baseret på load
+    \item Når der er behov for avancerede opdateringsstrategier
+    \item I disse tilfælde er Deployments eller StatefulSets mere passende
+\end{itemize}
+
+\subsection{Sammenligning med andre workloads}
+
+\begin{itemize}
+    \item DaemonSets: baggrundsservices på alle noder
+    \item Deployments: stateless applikationer med skalering og rolling updates
+    \item StatefulSets: stateful applikationer med persistent storage og stabile identiteter
+\end{itemize}

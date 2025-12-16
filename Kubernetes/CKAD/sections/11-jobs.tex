@@ -1,0 +1,71 @@
+\section{Jobs}
+
+\subsection{Hvad er et Job}
+
+\begin{itemize}
+    \item En workload type til \textbf{one-time tasks} i Kubernetes
+    \item Et Job kører en eller flere pods, indtil opgaven er fuldført
+    \item Designet til opgaver der skal køres én gang, ikke gentagne gange
+    \item Kubernetes sikrer, at opgaven gennemføres eller fejler korrekt
+\end{itemize}
+
+\subsection{Forskellen på Jobs og CronJobs}
+
+\begin{itemize}
+    \item Job: køres én gang og afsluttes
+    \item CronJob: kører Jobs baseret på en tidsplan
+    \item Jobs udløses manuelt eller via automatisering
+    \item CronJobs bruges til gentagne og tidsstyrede opgaver
+\end{itemize}
+
+\subsection{Hvordan Jobs fungerer}
+
+\begin{itemize}
+    \item Du definerer hvilke container(e) der skal udføre opgaven
+    \item Jobbet kører, indtil opgaven er fuldført
+    \item Ved fejl kan Kubernetes genstarte pods afhængigt af konfiguration
+    \item Når succes-kriterierne er opfyldt, markeres Jobbet som completed
+\end{itemize}
+
+\subsection{Konfiguration af Jobs}
+
+\begin{itemize}
+    \item \textbf{Completions}: antal succesfulde gennemførsler der kræves
+    \item \textbf{Parallelism}: antal pods der må køre samtidigt
+    \item \textbf{BackoffLimit}: antal genforsøg før Jobbet fejler
+    \item \textbf{RestartPolicy}: typisk sat til \texttt{Never} eller \texttt{OnFailure}
+\end{itemize}
+
+\subsection{Typiske anvendelser}
+
+\begin{itemize}
+    \item Batch processing af data
+    \item Database migrationer og schema-opdateringer
+    \item One-time backups
+    \item Administrative scripts der kun skal køres én gang
+\end{itemize}
+
+\subsection{Hvornår skal man bruge Jobs}
+
+\begin{itemize}
+    \item Når en opgave kun skal køres én gang
+    \item Når opgaven skal køre til completion, succes eller fejl
+    \item Når gentagelse kun skal ske manuelt eller via automation
+    \item Når opgaven kan køre i én pod eller parallelt i flere pods
+\end{itemize}
+
+\subsection{Hvornår Jobs ikke er velegnede}
+
+\begin{itemize}
+    \item Når opgaver skal køres på faste tidspunkter
+    \item Når opgaver skal gentages automatisk
+    \item I disse tilfælde er CronJobs mere passende
+\end{itemize}
+
+\subsection{Opsummering}
+
+\begin{itemize}
+    \item Jobs bruges til engangsopgaver i Kubernetes
+    \item Kubernetes håndterer retries og completion
+    \item Et centralt værktøj til batch jobs og administrative opgaver
+\end{itemize}

@@ -1,0 +1,80 @@
+\section{CronJobs}
+
+\subsection{Hvad er et CronJob}
+
+\begin{itemize}
+    \item En workload type til \textbf{tidsplanlagte} opgaver i Kubernetes
+    \item Fungerer på samme måde som cron jobs i Linux
+    \item Bruges til at køre opgaver på faste tidspunkter eller intervaller
+    \item Et CronJob opretter automatisk et \textbf{Job}, hver gang tidsplanen rammes
+    \item Hvert Job kører til opgaven er fuldført og afsluttes derefter
+\end{itemize}
+
+\subsection{Hvordan CronJobs fungerer}
+
+\begin{itemize}
+    \item CronJob-controlloren overvåger tidsplanen
+    \item Når tidsplanen udløses, oprettes et nyt Job
+    \item Jobbet starter én eller flere pods, som udfører opgaven
+    \item Når opgaven er færdig, markeres Jobbet som completed
+\end{itemize}
+
+\subsection{Planlægning og cron-syntaks}
+
+\begin{itemize}
+    \item Tidsplanen angives som en cron expression
+    \item Samme syntaks som klassisk Linux cron
+    \item Felter fra venstre mod højre:
+    \begin{itemize}
+        \item Minute
+        \item Time
+        \item Dag i måneden
+        \item Måned
+        \item Ugedag
+    \end{itemize}
+    \item Eksempel: kør hver dag kl. 00:00
+    \item Eksempel: kør hver mandag kl. 09:00
+\end{itemize}
+
+\subsection{Konfiguration af CronJobs}
+
+\begin{itemize}
+    \item \textbf{Schedule}: angiver hvornår jobbet skal køre
+    \item \textbf{Job template}: beskriver hvilket Job der skal oprettes
+    \item \textbf{Concurrency policy}: styrer hvad der sker, hvis et tidligere Job stadig kører
+    \item Mulighed for automatisk oprydning af gamle Jobs
+    \item Kan begrænse antal gemte succesfulde og fejlede Jobs
+\end{itemize}
+
+\subsection{Typiske anvendelser}
+
+\begin{itemize}
+    \item Database backups på faste tidspunkter
+    \item Log rotation, komprimering eller arkivering
+    \item Generering af rapporter og automatiske e-mails
+    \item Systemvedligeholdelse og oprydning af midlertidige filer
+\end{itemize}
+
+\subsection{Hvornår skal man bruge CronJobs}
+
+\begin{itemize}
+    \item Når opgaver skal køre på bestemte tidspunkter
+    \item Når opgaver skal gentages regelmæssigt
+    \item Når Kubernetes automatisk skal håndtere oprettelse af Jobs
+\end{itemize}
+
+\subsection{Hvornår CronJobs ikke er velegnede}
+
+\begin{itemize}
+    \item Når opgaver skal køres manuelt eller on-demand
+    \item Når opgaver kræver dynamisk horisontal skalering
+    \item I disse tilfælde er Jobs, Deployments eller StatefulSets mere passende
+\end{itemize}
+
+\subsection{Opsummering}
+
+\begin{itemize}
+    \item CronJobs automatiserer gentagne og tidsstyrede opgaver
+    \item De reducerer behovet for manuel drift
+    \item Et vigtigt værktøj til vedligeholdelse af Kubernetes-clustre
+\end{itemize}

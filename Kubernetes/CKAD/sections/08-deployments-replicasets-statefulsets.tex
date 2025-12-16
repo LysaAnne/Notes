@@ -1,0 +1,60 @@
+\section{Deployments, ReplicaSets og StatefulSets}
+Disse typer er de mest anvendte workload types i Kubernetes. Her kommer mere detaljerede forklaringer på de 3 typer.
+\subsection{Deployments}
+
+\begin{itemize}
+    \item Den mest anvendte workload type i Kubernetes
+    \item Vigtigste funktioner:
+    \begin{itemize}
+        \item Stateless applications
+        \item Autmatisk skalering
+        \item Rolling updates og rollbacks
+    \end{itemize}
+    \item Velegnet til \textbf{stateless applications} (applikationer uden vedvarende tilstand)
+    \item Alle pods i et Deployment er identiske
+    \item Skalering sker ved at ændre antallet af pods
+    \item Understøtter \textbf{rolling updates}, hvor pods gradvist udskiftes
+    \item Mulighed for \textbf{rollback} til tidligere version ved fejl
+    \item Sikrer minimal downtime under opdateringer
+    \item Typiske use cases er webservere, API’er og microservices
+\end{itemize}
+
+\subsection{ReplicaSets}
+
+\begin{itemize}
+    \item Vigtigste funktioner:
+    \begin{itemize}
+        \item Sikring af et fast antal pods
+        \item Ingen rolling updates eller rollbacks
+        \item Bliver ofte styret af Deployments
+    \end{itemize}
+    \item Minder funktionelt om Deployments, men med færre features 
+    \item Ingen understøttelse af rolling updates eller rollbacks
+    \item Håndterer automatisk genoprettelse af pods ved node-fejl
+    \item Bruges oftest indirekte og styres af Deployments
+    \item Anvendes sjældent direkte i praksis
+\end{itemize}
+
+\subsection{StatefulSets}
+
+\begin{itemize}
+    \item Vigtigste funktioner:
+    \begin{itemize}
+        \item Designet til \textbf{stateful applications} (applikationer med vedvarende data)
+        \item Stabile og unikke netværksidentiteter
+        \item Persistent storage til hver pod
+    \end{itemize}
+    \item Hver pod får et unikt og stabilt navn
+    \item Netværksidentitet bevares ved genstart eller genskabelse
+    \item Persistent storage tildeles individuelt til hver pod
+    \item Pods oprettes og nedskaleres i en fast og kontrolleret rækkefølge
+    \item Velegnet til databaser, key-value stores og andre stateful services
+\end{itemize}
+
+\subsection{Hvornår bruges de forskellige workload types}
+
+\begin{itemize}
+    \item Brug \textbf{Deployment} når applikationen er stateless, kræver nem skalering og automatiske opdateringer
+    \item Brug \textbf{ReplicaSet} hvis du kun har behov for at sikre et fast antal pods uden avancerede features
+    \item Brug \textbf{StatefulSet} hvis applikationen kræver persistent storage og stabile netværksidentiteter
+\end{itemize}
