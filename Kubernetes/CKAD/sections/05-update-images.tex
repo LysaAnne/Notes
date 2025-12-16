@@ -1,0 +1,86 @@
+\section{Opdatering af Docker images}
+
+\subsection{Hvorfor opdatere container images}
+\begin{itemize}
+  \item Container images er fundamentet for applikationer i Kubernetes
+  \item Når applikationen ændres, skal imaget opdateres tilsvarende
+  \item Sikrer at pods kører den nyeste og korrekte version af applikationen
+\end{itemize}
+
+\subsection{Typiske årsager til opdatering}
+\begin{itemize}
+  \item \textbf{Bug fixes}
+  \begin{itemize}
+    \item Fejl i koden er rettet
+  \end{itemize}
+  \item \textbf{Feature updates}
+  \begin{itemize}
+    \item Ny funktionalitet er tilføjet
+  \end{itemize}
+  \item \textbf{Dependency upgrades}
+  \begin{itemize}
+    \item Opdatering af eksterne biblioteker eller frameworks
+  \end{itemize}
+  \item \textbf{Security patches}
+  \begin{itemize}
+    \item Kritiske sårbarheder i base image eller dependencies
+  \end{itemize}
+\end{itemize}
+
+\subsection{Sådan opdateres et Docker image}
+\begin{itemize}
+  \item Først ændres applikationskoden eller dependencies
+  \item Herefter justeres Dockerfile om nødvendigt
+  \begin{itemize}
+    \item Opdatering af base image
+    \item Installation af nye dependencies
+    \item Ændringer i build-processen
+  \end{itemize}
+  \item Eksempel:
+  \begin{itemize}
+    \item \texttt{FROM node:14} ændres til \texttt{FROM node:16}
+  \end{itemize}
+\end{itemize}
+
+\subsection{Rebuild og push af opdateret image}
+\begin{itemize}
+  \item Efter ændringer rebuildes imaget med \texttt{docker build}
+  \item Nyt image tagges med en ny version, fx \texttt{1.1}
+  \item Det opdaterede image pushes til container registry
+  \item Sikrer at registry indeholder den nyeste version
+\end{itemize}
+
+\subsection{Opdatering af Kubernetes deployment}
+\begin{itemize}
+  \item Kubernetes skal pege på den nye image-version
+  \item Image-feltet i deployment YAML ændres til den nye tag
+  \item Ændringer anvendes med \texttt{kubectl apply}
+  \item Status verificeres med \texttt{kubectl get pods}
+  \item Pods genoprettes automatisk med det nye image
+\end{itemize}
+
+\subsection{Best practices for versionering}
+\begin{itemize}
+  \item Brug altid versionsnumre der afspejler ændringer
+  \item Undgå brug af \texttt{latest} i produktion
+  \item Klare versioner reducerer risikoen for fejl og forvirring
+\end{itemize}
+
+\subsection{Automatisering med CI/CD}
+\begin{itemize}
+  \item CI/CD pipelines kan automatisere hele processen
+  \item Almindelige værktøjer:
+  \begin{itemize}
+    \item GitHub Actions
+    \item GitLab CI
+    \item Jenkins
+  \end{itemize}
+  \item Typisk workflow:
+  \begin{itemize}
+    \item Code commit trigger build
+    \item Image buildes og tagges automatisk
+    \item Image pushes til registry
+    \item Kubernetes deployment opdateres automatisk
+  \end{itemize}
+  \item Reducerer manuel indsats og øger stabilitet og pålidelighed
+\end{itemize}

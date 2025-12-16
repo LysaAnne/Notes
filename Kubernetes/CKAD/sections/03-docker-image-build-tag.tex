@@ -1,0 +1,84 @@
+\section{Bygning og tagging af Docker images}
+
+\subsection{Formål}
+\begin{itemize}
+    \item Omdanne en Dockerfile til et brugbart Docker image
+    \item Bruge tags til versionsstyring og overblik
+    \item Gøre images klar til brug i Kubernetes og andre miljøer
+\end{itemize}
+
+\subsection{Bygning af Docker images}
+\begin{itemize}
+    \item Docker images bygges ud fra en \texttt{Dockerfile}
+    \item Den primære kommando er \texttt{docker build}
+    \item Kommandoen opretter et image baseret på instruktionerne i Dockerfile
+\end{itemize}
+
+\subsection{docker build-kommandoen}
+\begin{itemize}
+    \item \texttt{-t}: Angiver image-navn og tag
+    \item Image-navn: Typisk navnet på applikationen
+    \item Tag: Versions- eller identifikationsnavn (fx \texttt{latest}, \texttt{1.0}, \texttt{dev})
+    \item Path: Placeringen af Dockerfile
+    \item \texttt{.} betyder den nuværende mappe
+\end{itemize}
+
+\subsection{Eksempel på build}
+\begin{itemize}
+    \item \texttt{docker build -t myapp:1.0 .}
+    \item Bygger et image kaldet \texttt{myapp} med tag \texttt{1.0}
+    \item Dockerfile findes i den nuværende mappe
+\end{itemize}
+
+\subsection{Docker build-processen}
+\begin{itemize}
+    \item Docker læser Dockerfile linje for linje
+    \item Hver instruktion opretter et nyt layer
+    \item Layers caches for hurtigere genopbygning
+    \item Kun ændrede layers genbygges ved næste build
+    \item Alle layers samles til ét færdigt image
+\end{itemize}
+
+\subsection{Image tagging}
+\begin{itemize}
+    \item Tags bruges til at identificere og versionere images
+    \item Gør det muligt at styre hvilke versioner der deployes
+    \item Understøtter rollback til tidligere versioner
+\end{itemize}
+
+\subsection{Best practices for tagging}
+\begin{itemize}
+    \item Brug semantisk versionering (fx \texttt{1.0.0}, \texttt{1.1.0}, \texttt{2.0.0})
+    \item Undgå kun at bruge \texttt{latest}
+    \item Brug miljø-tags som \texttt{dev}, \texttt{staging}, \texttt{prod}
+    \item Brug Git commit hash som tag for sporbarhed
+\end{itemize}
+
+\subsection{Push af images til registry}
+\begin{itemize}
+    \item Images deles via et container registry
+    \item Eksempler: Docker Hub, GitHub Container Registry (GHCR)
+    \item Kommandoen er \texttt{docker push}
+\end{itemize}
+
+\subsection{Push-eksempler}
+\begin{itemize}
+    \item \texttt{docker push myapp:1.0}
+    \item \texttt{docker push ghcr.io/organisation/myapp:1.0}
+    \item Registry-URL skal angives ved private registries
+\end{itemize}
+
+\subsection{Login til registry}
+\begin{itemize}
+    \item Du skal være logget ind før push
+    \item Brug \texttt{docker login}
+    \item Gælder både Docker Hub og private registries
+\end{itemize}
+
+\subsection{Versionshåndtering i praksis}
+\begin{itemize}
+    \item Hver ændring i koden bør give et nyt image
+    \item Nyt build → nyt tag → push til registry
+    \item Giver overblik over ændringer og deployment-status
+    \item Gør fejlfinding og rollback nemmere
+\end{itemize}

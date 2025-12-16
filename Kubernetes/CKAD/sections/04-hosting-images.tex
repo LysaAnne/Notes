@@ -1,0 +1,105 @@
+\section{Container registries og hosting af images}
+
+\subsection{Hvad er en container registry}
+\begin{itemize}
+  \item En \textbf{container registry} er en lagringstjeneste til Docker images
+  \item Fungerer som et centralt sted, hvor images kan gemmes og hentes
+  \item Bruges af:
+  \begin{itemize}
+    \item Kubernetes clusters
+    \item CI/CD pipelines
+    \item Udviklere og teams
+  \end{itemize}
+  \item Gør det muligt at distribuere applikationer ensartet på tværs af miljøer
+\end{itemize}
+
+\subsection{Populære container registries}
+\begin{itemize}
+  \item \textbf{Docker Hub}
+  \begin{itemize}
+    \item Standard registry for Docker
+    \item Meget udbredt til både public og private images
+  \end{itemize}
+  \item \textbf{GitHub Container Registry (GHCR)}
+  \begin{itemize}
+    \item Registry integreret direkte med GitHub
+    \item Images gemmes sammen med kildekoden
+  \end{itemize}
+  \item \textbf{Google Container Registry (GCR)}
+  \begin{itemize}
+    \item Googles løsning til container images
+    \item Bruges ofte sammen med Google Cloud og GKE
+  \end{itemize}
+  \item \textbf{Amazon Elastic Container Registry (ECR)}
+  \begin{itemize}
+    \item AWS’ registry til sikker opbevaring af Docker images
+  \end{itemize}
+  \item \textbf{Harbor}
+  \begin{itemize}
+    \item Open source registry fra CNCF
+    \item Bruges ofte i enterprise- og on-premise miljøer
+  \end{itemize}
+\end{itemize}
+
+\subsection{Push af images til Docker Hub}
+\begin{itemize}
+  \item Kræver en Docker Hub konto
+  \item Første trin er at logge ind:
+  \begin{itemize}
+    \item \texttt{docker login}
+  \end{itemize}
+  \item Image skal tagges med dit Docker Hub brugernavn
+  \item Tag-format:
+  \begin{itemize}
+    \item \texttt{username/myapp:1.0}
+  \end{itemize}
+  \item Image pushes til registry med:
+  \begin{itemize}
+    \item \texttt{docker push username/myapp:1.0}
+  \end{itemize}
+  \item Efter push kan imaget hentes fra enhver maskine med adgang til Docker Hub
+\end{itemize}
+
+\subsection{GitHub Container Registry (GHCR)}
+\begin{itemize}
+  \item Velegnet hvis GitHub allerede bruges til source control
+  \item Understøtter sikker lagring og adgangsstyring
+  \item Kræver en \textbf{Personal Access Token (PAT)} fra GitHub
+  \item Token bruges som password ved login:
+  \begin{itemize}
+    \item \texttt{docker login ghcr.io}
+  \end{itemize}
+  \item Image skal tagges med \texttt{ghcr.io} prefix
+  \item Efter push gemmes imaget i GitHub og kan bruges af Kubernetes eller CI/CD
+\end{itemize}
+
+\subsection{Public vs private repositories}
+\begin{itemize}
+  \item \textbf{Public repositories}
+  \begin{itemize}
+    \item Alle kan hente imaget
+    \item Velegnet til open source projekter
+  \end{itemize}
+  \item \textbf{Private repositories}
+  \begin{itemize}
+    \item Kræver autentificering
+    \item Bruges til proprietære eller interne applikationer
+  \end{itemize}
+  \item Indstillinger styres:
+  \begin{itemize}
+    \item Via Docker Hub webinterface eller CLI
+    \item Via GitHub repository- og package-indstillinger
+  \end{itemize}
+\end{itemize}
+
+\subsection{Versionering af container images}
+\begin{itemize}
+  \item Versionering er afgørende for stabilitet og sporbarhed
+  \item Brug altid entydige tags (fx \texttt{1.0.0}, \texttt{2.1}, commit-SHA)
+  \item Undgå at bruge \texttt{latest} i produktion
+  \item Forkert brug af \texttt{latest} kan føre til:
+  \begin{itemize}
+    \item Uventede opdateringer
+    \item Fejl i deployment
+  \end{itemize}
+\end{itemize}
